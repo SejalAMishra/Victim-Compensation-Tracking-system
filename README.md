@@ -29,7 +29,7 @@ This reduces manual effort, minimizes errors, and ensures faster and more transp
 ![Dashboard](img/dashboard_img.PNG)
 
 ### 🤖 Query System
-![Query System](img/query_system_img.PNG)
+![Query System](img/query.PNG)
 
 ### ⚙️ Project Structure
 After extracting the project files, you will find:
