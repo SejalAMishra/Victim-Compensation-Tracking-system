@@ -1,0 +1,93 @@
+Sub UpdateTrackingSystem()
+
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim i As Long
+    
+    Dim pendingDays As Long
+    Dim delayStatus As String
+    Dim riskLevel As String
+    Dim alertFlag As String
+    
+    Dim approvedCount As Long
+    Dim pendingCount As Long
+    Dim rejectedCount As Long
+    
+    Set ws = ThisWorkbook.Sheets("Case_Data")
+    
+    lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    
+    For i = 2 To lastRow
+    
+        ' Column I = Pending Days
+        pendingDays = ws.Cells(i, 9).Value
+        
+        ' -------------------------------
+        ' 1. Delay Forecast (Column J)
+        ' -------------------------------
+        If pendingDays <= 200 Then
+            delayStatus = "On Time"
+            
+        ElseIf pendingDays <= 500 Then
+            delayStatus = "Delay"
+            
+        Else
+            delayStatus = "High Delay"
+        End If
+        
+        ws.Cells(i, 10).Value = delayStatus   ' Column J
+        
+        ' -------------------------------
+        ' 2. Risk Level (Column K)
+        ' -------------------------------
+        If delayStatus = "High Delay" Then
+            riskLevel = "High"
+            
+        ElseIf delayStatus = "Delay" Then
+            riskLevel = "Medium"
+            
+        Else
+            riskLevel = "Low"
+        End If
+        
+        ws.Cells(i, 11).Value = riskLevel   ' Column K
+        
+        ' -------------------------------
+        ' 3. Alert Flag (Column L)
+        ' -------------------------------
+        If pendingDays > 500 Then
+            alertFlag = "? ALERT"
+        Else
+            alertFlag = "OK"
+        End If
+        
+        ws.Cells(i, 12).Value = alertFlag   ' Column L
+        
+        ' -------------------------------
+        ' 4. Approval Count (Column H)
+        ' -------------------------------
+        Select Case ws.Cells(i, 8).Value
+        
+            Case "Approved"
+                approvedCount = approvedCount + 1
+                
+            Case "Pending"
+                pendingCount = pendingCount + 1
+                
+            Case "Rejected"
+                rejectedCount = rejectedCount + 1
+                
+        End Select
+        
+    Next i
+    
+    ' -------------------------------
+    ' 5. Summary Popup
+    ' -------------------------------
+    MsgBox "System Updated!" & vbNewLine & _
+           "Approved: " & approvedCount & vbNewLine & _
+           "Pending: " & pendingCount & vbNewLine & _
+           "Rejected: " & rejectedCount, vbInformation
+
+End Sub
+

@@ -1,0 +1,63 @@
+Sub UpdateCaseTracking()
+
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim i As Long
+    
+    Dim appDate As Date
+    Dim todayDate As Date
+    Dim pendingDays As Long
+    
+    Set ws = ThisWorkbook.Sheets("case_data")
+    
+    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    todayDate = Date
+    
+    For i = 2 To lastRow
+        
+        If ws.Cells(i, 2).Value <> "" Then
+            
+            appDate = ws.Cells(i, 2).Value
+            pendingDays = todayDate - appDate
+            
+            ' Pending Days (I)
+            ws.Cells(i, 9).Value = pendingDays
+            
+            ' Delay Forecast (J) ? NO COLOR
+            If pendingDays <= 200 Then
+                ws.Cells(i, 10).Value = "On Time"
+            ElseIf pendingDays <= 300 Then
+                ws.Cells(i, 10).Value = "Delay"
+            Else
+                ws.Cells(i, 10).Value = "High Delay"
+            End If
+            ws.Cells(i, 10).Interior.ColorIndex = xlNone   ' remove any color
+            
+            ' Risk Level (K) ? COLOR ONLY HERE
+            If pendingDays <= 200 Then
+                ws.Cells(i, 11).Value = "Low"
+                ws.Cells(i, 11).Interior.Color = RGB(0, 255, 0)   ' Green
+                
+            ElseIf pendingDays <= 350 Then
+                ws.Cells(i, 11).Value = "Medium"
+                ws.Cells(i, 11).Interior.Color = RGB(255, 255, 0) ' Yellow
+                
+            Else
+                ws.Cells(i, 11).Value = "High"
+                ws.Cells(i, 11).Interior.Color = RGB(255, 0, 0)   ' Red
+            End If
+            
+            ' Alert Flag (L)
+            If ws.Cells(i, 11).Value = "High" Then
+                ws.Cells(i, 12).Value = "ALERT"
+            Else
+                ws.Cells(i, 12).Value = ""
+            End If
+            
+        End If
+        
+    Next i
+    
+    MsgBox "Updated Successfully!", vbInformation
+
+End Sub

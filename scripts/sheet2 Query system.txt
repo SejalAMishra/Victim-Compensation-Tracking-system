@@ -1,0 +1,31 @@
+Sub GetAnswer()
+
+    Dim userQuery As String
+    Dim keywordList As String
+    Dim answer As String
+    Dim i As Integer
+    Dim j As Integer
+    Dim keywords() As String
+    
+    userQuery = LCase(Sheets("Query_System").Range("A7").Value)
+    
+    For i = 2 To Sheets("FAQ_Data").Cells(Rows.Count, 1).End(xlUp).Row
+        
+        keywordList = LCase(Sheets("FAQ_Data").Cells(i, 1).Value)
+        keywords = Split(keywordList, ",")
+        
+        For j = LBound(keywords) To UBound(keywords)
+            
+            If InStr(userQuery, Trim(keywords(j))) > 0 Then
+                answer = Sheets("FAQ_Data").Cells(i, 3).Value
+                Sheets("Query_System").Range("A11").Value = answer
+                Exit Sub
+            End If
+            
+        Next j
+        
+    Next i
+    
+    Sheets("Query_System").Range("B2").Value = "Sorry, no answer found. Please try different question."
+
+End Sub
