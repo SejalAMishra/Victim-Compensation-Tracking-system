@@ -20,7 +20,7 @@ This reduces manual effort, minimizes errors, and ensures faster and more transp
 ## 🖼️ Project Screenshots
 
 ### 📁 Case Data
-![Case Data](img/case_data_img.PNG)
+![Case Data](img/Case_data_img.PNG)
 
 ### ❓ FAQ Data
 ![FAQ Data](img/FAQ_data_img.PNG)
@@ -29,7 +29,7 @@ This reduces manual effort, minimizes errors, and ensures faster and more transp
 ![Dashboard](img/dashboard_img.PNG)
 
 ### 🤖 Query System
-![Query System](img/query_system.PNG)
+![Query System](img/Query_system.PNG)
 
 ### ⚙️ Project Structure
 After extracting the project files, you will find:
